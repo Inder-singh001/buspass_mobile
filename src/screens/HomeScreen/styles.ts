@@ -10,13 +10,21 @@ export const styles = StyleSheet.create({
   input: {
     padding: 4,
   },
-  card: {
+  button: {
+    marginTop: 28,
+    width: 310,
+    height: 100,
+    justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 28
-  },
-  NewCard: {
-    padding: 10,
     borderRadius: 8,
-    marginVertical: 10,
+  },
+  content: {
+    marginTop: 28,
+    flexWrap: 'wrap',
+    fontSize: 16,
+    textAlign: 'center',
+    height: 60,
+    width: 260,
+    padding: 10,
   },
 });

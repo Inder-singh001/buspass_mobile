@@ -1,24 +1,34 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from 'react-native';
+import {Icon} from 'react-native-paper';
 
 export const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      paddingHorizontal: 20,
-    },
-    title: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginBottom: 20,
-    },
-    input: {
-      width: '100%',
-      height: 40,
-      borderWidth: 1,
-      borderColor: '#ccc',
-      borderRadius: 5,
-      paddingHorizontal: 10,
-      marginBottom: 10,
-    },
-  });
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  title: {
+    fontSize: 30,
+    marginBottom: 2,
+    padding: 8,
+  },
+  input: {
+    width: '90%',
+    borderColor: '#ccc',
+    borderRadius: 5,
+    overflow: 'hidden',
+    marginBottom: 10,
+    color: '#00000080',
+    fontSize: 12,
+  },
+  option: {
+    width: '65%',
+    fontSize: 12,
+    overflow: 'hidden',
+    marginLeft: 8,
+  },
+  icon: {
+    width: 20,
+    height: 20,
+  },
+});

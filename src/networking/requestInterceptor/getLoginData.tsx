@@ -9,7 +9,11 @@ const authLogin = async (email: string, password: string) => {
     });
     console.log(response.data);
     // Handle login success
-    return response.data; // You may want to return some data to the caller
+    if (response.data.success) {
+      navigation.navigate('HomePage');
+    } else {
+      console.log('Login failed');
+    } // You may want to return some data to the caller
   } catch (error) {
     console.error('Error logging in', error);
     // Handle login failure
