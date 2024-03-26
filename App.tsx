@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Navigation from './src/navigation/NavigationContainer';
-import { authenticateUser } from './src/screens/LoginPage/helper';
+import {authenticateUser} from './src/screens/LoginPage/helper';
+import {AuthProvider} from './src/context/AuthContext';
 // import SplashScreen from 'react-native-splash-screen';
 
 function App(): React.JSX.Element {
@@ -10,9 +11,9 @@ function App(): React.JSX.Element {
   //   }, 500);
   // })
   return (
-    <>
-      <Navigation  />
-    </>
+    <AuthProvider>
+      <Navigation />
+    </AuthProvider>
   );
 }
 

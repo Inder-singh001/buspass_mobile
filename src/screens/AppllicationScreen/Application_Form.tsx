@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {View, ScrollView} from 'react-native';
+import React, {useState} from 'react';
+import {View, ScrollView, Alert} from 'react-native';
 import {
   TextInput,
   Button,
@@ -9,10 +9,16 @@ import {
   Checkbox,
 } from 'react-native-paper';
 import {styles} from './style';
-import MonthPicker from 'react-native-month-year-picker';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import axios from 'axios';
+import {CommonActions, NavigationProp} from '@react-navigation/native';
+import DatePicker from 'react-native-date-picker';
+import TermsConditons from '../../components/T_Cagreement';
 
-const Request = () => {
+interface AppProps {
+  navigation: NavigationProp<any>;
+}
+const Request: React.FC<AppProps> = ({navigation}) => {
   // State variables to hold form data
   const [fatherName, setFatherName] = useState('');
   const [residentAddress, setResidentAddress] = useState('');
@@ -21,16 +27,17 @@ const Request = () => {
   const [occupation, setOccupation] = useState('');
   const [scholarship, setScholarship] = useState('');
   const [admissionDate, setAdmissionDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
   const [departurePlace, setDeparturePlace] = useState('');
   const [arrivalPlace, setArrivalPlace] = useState('');
   const [collegeName, setCollegeName] = useState('');
   const [collegeAddress, setCollegeAddress] = useState('');
-  const [show, setShow] = useState(false);
   const [busStopName, setBusStopName] = useState('');
   const [state, setState] = useState('');
   const [district, setDistrict] = useState('');
   const [month, setMonth] = useState('');
   const [checked, setChecked] = useState(false);
+  const [termschecked, setTermsChecked] = useState(false);
   const [collegedistrict, setCollegeDistrict] = useState('');
   const [collegestate, setCollegeState] = useState('');
   const [postalcode, setPostalCode] = useState('');
@@ -40,27 +47,94 @@ const Request = () => {
   const [endDate, setEndDate] = useState('');
   const [busPassNo, setBusPassNo] = useState('');
 
-  //Date Picker
-  const showPicker = (value: boolean) => setShow(value);
+  // const [formData, setFormData] = useState({
+  //   fatherName: '',
+  //   residentAddress: '',
+  //   // Add other form fields here
+  // });
 
-  const onValueChange = (event: any, newDate: Date) => {
-    const selectedDate = newDate || admissionDate;
-    showPicker(false);
-    setAdmissionDate(selectedDate);
-    console.log('Working');
-  };
+  // const [editMode, setEditMode] = useState(false);
 
-  // Calculate the minimum and maximum dates
-  const currentDate = new Date();
-  const fiveYearsAgo = new Date(
-    currentDate.getFullYear() - 5,
-    currentDate.getMonth(),
-  );
+  // useEffect(() => {
+  //   fetchData(); // Fetch data when the component mounts
+  // }, []);
 
-  // Function to handle form submission
-  const handleSubmit = () => {
-    // Implement form submission logic here
-    console.log('Form submitted!');
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await axios.get('your-api-endpoint');
+  //     setFormData(response.data); // Assuming response.data contains the form data
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //   }
+  // };
+
+  const handleSubmit = async () => {
+    if (
+      !fatherName &&
+      !residentAddress &&
+      !busStopCity &&
+      !hostelDetails &&
+      !occupation &&
+      !scholarship &&
+      !admissionDate &&
+      !departurePlace &&
+      !arrivalPlace &&
+      !collegeName &&
+      !collegeAddress &&
+      !busStopName &&
+      !state &&
+      !district &&
+      !month &&
+      !checked &&
+      !collegedistrict &&
+      !collegestate &&
+      !postalcode &&
+      !homepostalcode &&
+      !homestate
+    ) {
+      console.log('Empty Fields');
+      Alert.alert('Field Empty', 'Some fields are empty.');
+      console.log({
+        fatherName: fatherName,
+        residentAddress: residentAddress,
+        busStopCity: busStopCity,
+        hostelDetails: hostelDetails,
+        occupation: occupation,
+        scholarship: scholarship,
+        admissionDate: admissionDate,
+        departurePlace: departurePlace,
+        arrivalPlace: arrivalPlace,
+        collegeName: collegeName,
+        collegeAddress: collegeAddress,
+
+        busStopName: busStopName,
+        state: state,
+        district: district,
+        month: month,
+        checked: checked,
+        collegedistrict: collegedistrict,
+        collegestate: collegestate,
+        postalcode: postalcode,
+        homepostalcode: homepostalcode,
+        homestate: homestate,
+      });
+    } else {
+      console.log('Request Sent.');
+      Alert.alert('Success', 'Data updated successfully');
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{name: 'Home'}],
+        }),
+      );
+    }
+    // try {
+    //   // Send updated data to the server
+    //   await axios.put('your-api-endpoint', formData);
+    // } catch (error) {
+    //   console.error('Error updating data:', error);
+    //   Alert.alert('Error', 'Failed to update data. Please try again.');
+    // }
   };
 
   return (
@@ -290,14 +364,19 @@ const Request = () => {
               placeholderTextColor={styles.input.color}
             />
           </View>
-          {show && (
-            <MonthPicker
-              onChange={onValueChange}
-              value={admissionDate}
-              minimumDate={fiveYearsAgo}
-              maximumDate={currentDate}
-            />
-          )}
+          <DatePicker
+            modal
+            mode="date"
+            open={open}
+            date={admissionDate}
+            onConfirm={admissionDate => {
+              setOpen(false);
+              setAdmissionDate(admissionDate);
+            }}
+            onCancel={() => {
+              setOpen(false);
+            }}
+          />
           <TextInput
             mode="outlined"
             label="Admission Year"
@@ -310,7 +389,7 @@ const Request = () => {
               <TextInput.Icon
                 icon={() => <FontAwesome5 name="calendar" size={16} />}
                 style={styles.icon}
-                onPress={() => showPicker(true)}
+                onPress={() => setOpen(true)}
               />
             }
             placeholderTextColor={styles.input.color}
@@ -413,7 +492,7 @@ const Request = () => {
           </View>
 
           <View style={{paddingTop: 8}}>
-            <Text variant="bodyLarge">* Note</Text>
+            <Text variant="bodyLarge">*Note</Text>
             <View style={{flexDirection: 'row'}}>
               <Checkbox
                 status={checked ? 'checked' : 'unchecked'}
@@ -428,6 +507,20 @@ const Request = () => {
           </View>
         </Card.Content>
       </Card>
+      <View style={{flexDirection: 'row'}}>
+        <Checkbox
+          status={termschecked ? 'checked' : 'unchecked'}
+          onPress={() => {
+            setTermsChecked(!termschecked);
+          }}
+        />
+        <Text style={styles.textNote}>
+          Agree to the
+          <Text onPress={TermsConditons} style={{color: '#11B5E4'}}>
+            Terms and conditions
+          </Text>
+        </Text>
+      </View>
 
       {/* <TextInput
         style={styles.input}
@@ -447,12 +540,13 @@ const Request = () => {
         value={busPassNo}
         onChangeText={setBusPassNo}
       /> */}
-      <Button
+      {/* <Button
         mode="contained"
         style={{backgroundColor: 'midnightblue'}}
         onPress={() => console.log('Import files')}>
         <Text> Import Files</Text>
-      </Button>
+      </Button> */}
+      {/* {editMode ? 'Disable Edit Mode' : 'Enable Edit Mode'} */}
       <Button
         mode="contained"
         style={{backgroundColor: 'midnightblue'}}

@@ -11,9 +11,9 @@ export const styles = StyleSheet.create({
     padding: 4,
   },
   button: {
-    marginTop: 28,
+    marginTop: 18,
     width: 310,
-    height: 100,
+    height: 80,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
@@ -27,4 +27,17 @@ export const styles = StyleSheet.create({
     width: 260,
     padding: 10,
   },
+  card: {
+    marginBottom: 14,
+    borderRadius: 5,
+    flexDirection: 'row-reverse',
+    alignItems: 'center',
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+  },
+
 });

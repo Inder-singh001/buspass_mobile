@@ -1,17 +1,17 @@
-import React, {isValidElement, useState} from 'react';
+import React, {useState} from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {Button, TextInput} from 'react-native-paper';
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView, Alert} from 'react-native';
 import {styles} from './styles.ts';
 import {SelectList} from 'react-native-dropdown-select-list';
-import MonthPicker from 'react-native-month-year-picker';
 import {calculateYear} from './helper.ts';
 import axios from 'axios';
 import {NavigationProp, CommonActions} from '@react-navigation/native';
+import DatePicker from 'react-native-date-picker';
 
 interface Props {
   navigation: NavigationProp<any>;
-  route: {params: {name: string}};
+  route: {params: {name: string; phone: string}};
 }
 
 const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
@@ -21,19 +21,19 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
   const [department, setDepartment] = useState('');
   const [year] = useState('');
   const [batch, setBatch] = useState(new Date());
+  const [open, setOpen] = useState(false);
   const [rollno, setCollege_Roll_no] = useState('');
   const [semester, setSemester] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordMatch, setPasswordMatch] = useState(true);
-  const [show, setShow] = useState(false);
   const [validEmail, setValidEmail] = useState(true);
 
   const handleSignup = async () => {
     const signupData = {
       name: name,
-      email: email,
+      email: email.toLocaleLowerCase(),
       password: password,
       course: course,
       batch: batch,
@@ -56,12 +56,17 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
       // Handle successful signup response
       if (response.status === 200) {
         console.log(response.data);
-        navigation.dispatch(
-          CommonActions.reset({
-            index: 0,
-            routes: [{name: 'Home', params: {name: signupData.name}}],
-          }),
-        );
+        {
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{name: 'Login', params: {name: signupData.name}}],
+            }),
+          );
+        }
+        // need to talk again
+        Alert.alert("Verificaton", "Your Signup request has been sent to college authorities for approval.")
+        // navigation.navigate('Login');
       }
     } catch (error: any) {
       // Handle signup error
@@ -112,15 +117,6 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
         confirmpassword: signupData.confirmPassword,
       });
     }
-  };
-
-  const showPicker = (value: boolean) => setShow(value);
-
-  const onValueChange = (event: any, newDate: Date) => {
-    const selectedDate = newDate || batch;
-    showPicker(false);
-    setBatch(selectedDate);
-    console.log('Working');
   };
 
   const semesterData = [
@@ -214,14 +210,19 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
           placeholderTextColor={styles.input.color}
         />
 
-        {show && (
-          <MonthPicker
-            onChange={onValueChange}
-            value={batch}
-            minimumDate={new Date()}
-            maximumDate={new Date(2050, 5)}
-          />
-        )}
+        <DatePicker
+          modal
+          mode="date"
+          open={open}
+          date={batch}
+          onConfirm={batch => {
+            setOpen(false);
+            setBatch(batch);
+          }}
+          onCancel={() => {
+            setOpen(false);
+          }}
+        />
         <View
           style={{
             flexDirection: 'row',
@@ -234,6 +235,7 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
             mode="outlined"
             label="Batch"
             style={styles.option}
+            placeholder="Starting Batch"
             value={batch.toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'long',
@@ -242,11 +244,12 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
               <TextInput.Icon
                 icon={() => <FontAwesome5 name="calendar" size={16} />}
                 style={styles.icon}
-                onPress={() => showPicker(true)}
+                onPress={() => setOpen(true)}
               />
             }
             placeholderTextColor={styles.input.color}
           />
+
           <SelectList
             setSelected={setSemester} // Assuming setSelected needs to be handled
             data={semesterData}
@@ -272,6 +275,17 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
             inputStyles={{color: 'black', fontSize: 12}}
           />
         </View>
+        {
+          <Text
+            style={{
+              color: 'red',
+              marginTop: -10,
+              marginLeft: -154,
+              fontSize: 12,
+            }}>
+            Select admission year
+          </Text>
+        }
         <View
           style={{
             width: '90%',
