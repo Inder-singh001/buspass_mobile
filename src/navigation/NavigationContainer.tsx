@@ -15,7 +15,7 @@ import {Button, Text} from 'react-native-paper';
 import ReNewRequest from '../screens/ApplicationScreen/ReNewAppForm';
 import {styles} from '../screens/LoginPage/styles';
 import {theme} from '../theme/colors';
-import { DocUpload } from '../screens/ApplicationScreen/components/Documents';
+import { DocUpload } from '../components/DocumentsUpload/Documents';
 
 const Stack = createNativeStackNavigator();
 
@@ -83,7 +83,7 @@ const Navigation = () => {
         />
         <Stack.Screen name="OtpVerify" component={VerifyOtp} />
         <Stack.Screen name="ForgetPass" component={Forgetpassword} />
-        <Stack.Screen name="DocUpload" component={DocUpload} />
+       
         
       </Stack.Navigator>
     </NavigationContainer>

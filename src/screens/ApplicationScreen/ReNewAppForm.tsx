@@ -14,6 +14,7 @@ import axios from 'axios';
 import {CommonActions, NavigationProp} from '@react-navigation/native';
 import DatePicker from 'react-native-date-picker';
 import {theme} from '../../theme/colors';
+import ImportButton from '../../components/DocumentsUpload/Button';
 
 interface AppProps {
   navigation: NavigationProp<any>;
@@ -671,12 +672,7 @@ const ReNewRequest: React.FC<AppProps> = ({navigation}) => {
         </Card.Content>
       </Card>
 
-      <Button
-        mode="contained"
-        style={{marginBottom: 8, backgroundColor: theme.colors.secondary, borderRadius: 5}}
-        onPress={() => setEditMode(!editMode)}>
-        {editMode ? 'Save ' : 'Edit '}
-      </Button>
+      <ImportButton/>
       <Button
         mode="contained"
         style={{backgroundColor: theme.colors.secondary, borderRadius: 5}}

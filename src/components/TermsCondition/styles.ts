@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import { theme } from '../../theme/colors';
 
 export const styles = StyleSheet.create({
   container: {
@@ -28,7 +29,6 @@ export const styles = StyleSheet.create({
   headText: {
     padding: 12,
     color: '#e1e3e4',
-
   },
   contentView: {
     backgroundColor: '#2f3033',
@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
     color: '#00adf1',
   },
   textNote: {
-    width:'90%',
+    width: '90%',
     paddingTop: 6,
     fontSize: 12,
     fontWeight: '700',
@@ -55,4 +55,5 @@ export const styles = StyleSheet.create({
     marginBottom: -4,
     color: '#e1e3e4',
   },
+  
 });

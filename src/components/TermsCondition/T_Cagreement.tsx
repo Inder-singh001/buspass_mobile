@@ -57,13 +57,13 @@ const TermsConditons: React.FC<ModalProps> = ({
             <ScrollView>
               {TermsConditionAgreement.map(terms => (
                 <View style={{flexDirection: 'row', width: '95%'}}>
-                  <Text variant="titleSmall" style={styles.contentView}>
-                    {terms.key}.
-                  </Text>
                   <Text
                     variant="titleSmall"
                     style={styles.contentView}
                     key={terms.key}>
+                    {terms.key}.
+                  </Text>
+                  <Text variant="titleSmall" style={styles.contentView}>
                     {terms.content}
                   </Text>
                 </View>

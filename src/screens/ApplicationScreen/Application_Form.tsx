@@ -14,6 +14,8 @@ import axios from 'axios';
 import {CommonActions, NavigationProp} from '@react-navigation/native';
 import DatePicker from 'react-native-date-picker';
 import {theme} from '../../theme/colors';
+import { DocUpload } from '../../components/DocumentsUpload/Documents';
+import ImportButton from '../../components/DocumentsUpload/Button';
 
 interface AppProps {
   navigation: NavigationProp<any>;
@@ -599,12 +601,7 @@ const Request: React.FC<AppProps> = ({navigation}) => {
       </View> */}
 
       
-      <Button
-        mode="contained"
-        style={styles.button}
-        onPress={() => navigation.navigate('DocUpload')}>
-        Import Files
-      </Button>
+      <ImportButton />
       
       <Button
         mode="contained"
