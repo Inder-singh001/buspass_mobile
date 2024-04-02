@@ -1,6 +1,5 @@
 import {StyleSheet} from 'react-native';
-import CardTitle from 'react-native-paper/lib/typescript/components/Card/CardTitle';
-import {white} from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
+import {theme} from '../../theme/colors';
 
 export const styles = StyleSheet.create({
   container: {
@@ -15,11 +14,13 @@ export const styles = StyleSheet.create({
     marginBottom: 8,
     includeFontPadding: false,
     textAlignVertical: 'center',
-    color: '#ccc',
+    color: theme.colors.onPrimary,
+    backgroundColor: theme.colors.ontertiary,
   },
   card: {
     marginBottom: 14,
     borderRadius: 5,
+    backgroundColor: theme.colors.ontertiary,
   },
   cardNote: {
     opacity: 0.5,
@@ -29,6 +30,7 @@ export const styles = StyleSheet.create({
     paddingBottom: 8,
     fontSize: 16,
     fontWeight: 'bold',
+    color: theme.colors.onPrimary,
   },
   queCard: {
     marginBottom: 14,
@@ -40,18 +42,29 @@ export const styles = StyleSheet.create({
     fontWeight: '500',
     paddingLeft: 8,
     paddingBottom: 8,
+    color: theme.colors.onPrimary,
+  },
+  colortext: {
+    color: theme.colors.placeholder,
   },
   text: {
     marginTop: 6,
+    color: theme.colors.onPrimary,
   },
   textNote: {
     paddingTop: 6,
     fontSize: 12,
     fontWeight: '600',
     marginTop: 2,
+    color: theme.colors.onPrimary,
   },
   icon: {
     width: 20,
     height: 20,
+  },
+  button: {
+    backgroundColor: theme.colors.secondary,
+    borderRadius: 5,
+    marginBottom: 12,
   },
 });

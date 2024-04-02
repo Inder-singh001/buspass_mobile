@@ -8,6 +8,7 @@ import {calculateYear} from './helper.ts';
 import axios from 'axios';
 import {NavigationProp, CommonActions} from '@react-navigation/native';
 import DatePicker from 'react-native-date-picker';
+import {theme} from '../../theme/colors.ts';
 
 interface Props {
   navigation: NavigationProp<any>;
@@ -19,29 +20,47 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
   const [email, setEmail] = useState('');
   const [course, setCourse] = useState('');
   const [department, setDepartment] = useState('');
-  const [year] = useState('');
   const [batch, setBatch] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [rollno, setCollege_Roll_no] = useState('');
   const [semester, setSemester] = useState('');
+  const year = calculateYear(semester);
   const [phone, setPhone] = useState('');
+  const [aadhaar, setAadhaar] = useState('');
+  const [college, setCollege] = useState('');
+  const [fatherName, setFatherName] = useState('');
+  const [homepostalcode, setHomePostalCode] = useState('');
+  const [homestate, setHomeState] = useState('');
+  const [district, setDistrict] = useState('');
+  const [residentAddress, setResidentAddress] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordMatch, setPasswordMatch] = useState(true);
   const [validEmail, setValidEmail] = useState(true);
 
+  const address = `${residentAddress},${district},${homestate},${homepostalcode}`;
+
   const handleSignup = async () => {
     const signupData = {
       name: name,
       email: email.toLocaleLowerCase(),
-      password: password,
       course: course,
       batch: batch,
       semester: semester,
       rollno: rollno,
       department: department,
-      phone: phone,
       year: year,
+      admission_date: batch,
+      aadhar_number: aadhaar,
+      phone_number: phone,
+      college: college,
+      father_name: fatherName,
+      address: address,
+      password: password,
+      residentAddress,
+      homepostalcode,
+      district,
+      homestate,
       confirmPassword,
       passwordMatch,
       validEmail,
@@ -65,7 +84,10 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
           );
         }
         // need to talk again
-        Alert.alert("Verificaton", "Your Signup request has been sent to college authorities for approval.")
+        Alert.alert(
+          'Verificaton',
+          'Your Signup request has been sent to college authorities for approval.',
+        );
         // navigation.navigate('Login');
       }
     } catch (error: any) {
@@ -82,39 +104,52 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
       signupData.password &&
       signupData.confirmPassword &&
       signupData.email &&
-      signupData.phone &&
-      signupData.phone.length === 10 &&
+      signupData.phone_number &&
+      signupData.phone_number.length === 10 &&
       signupData.rollno &&
       signupData.course &&
       signupData.batch &&
       signupData.department &&
-      signupData.name
+      signupData.name &&
+      signupData.address &&
+      signupData.father_name &&
+      signupData.residentAddress &&
+      signupData.homestate &&
+      signupData.district &&
+      signupData.homepostalcode &&
+      signupData.aadhar_number &&
+      signupData.college &&
+      signupData.semester
+
     ) {
       if (signupData.passwordMatch && signupData.validEmail) {
         console.log('Sign-In with - ', {
           name: signupData.name,
           email: signupData.email,
-          phone: signupData.phone,
+          phone: signupData.phone_number,
           password: signupData.password,
           confirmpassword: signupData.confirmPassword,
+          address: signupData.address
         });
       } else {
         console.log('Password do not match');
         console.log('Sign-in with:', {
           name: signupData.name,
           email: signupData.email,
-          phone: signupData.phone,
+          phone: signupData.phone_number,
           password: signupData.password,
           confirmpassword: signupData.confirmPassword,
+          address: signupData.address
         });
       }
     } else {
       console.log('Empty Fields or User Exists', {
         name: signupData.name,
         email: signupData.email,
-        phone: signupData.phone,
+        phone: signupData.phone_number,
         password: signupData.password,
         confirmpassword: signupData.confirmPassword,
+        address: signupData.address
       });
     }
   };
@@ -133,7 +168,7 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.title}>Sign-In</Text>
+        <Text style={styles.title}>SignUp</Text>
         <TextInput
           mode="outlined"
           style={styles.input}
@@ -141,7 +176,12 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
           placeholder="Name"
           onChangeText={setName}
           value={name}
-          placeholderTextColor={styles.input.color}
+          outlineStyle={{
+            borderColor: theme.colors.primary,
+            borderRadius: 5,
+          }}
+          activeOutlineColor="#2f3033"
+          placeholderTextColor={styles.placeholder.color}
         />
         <TextInput
           mode="outlined"
@@ -158,7 +198,12 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
             setValidEmail(emailRegex.test(text));
           }}
           value={email}
-          placeholderTextColor={styles.input.color}
+          placeholderTextColor={styles.placeholder.color}
+          outlineStyle={{
+            borderColor: theme.colors.primary,
+            borderRadius: 5,
+          }}
+          activeOutlineColor="#2f3033"
         />
         {!validEmail && (
           <Text
@@ -187,15 +232,25 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
             placeholder="Course"
             onChangeText={setCourse}
             value={course}
-            placeholderTextColor={styles.input.color}
+            placeholderTextColor={styles.placeholder.color}
+            outlineStyle={{
+              borderColor: theme.colors.primary,
+              borderRadius: 5,
+            }}
+            activeOutlineColor="#2f3033"
           />
           <TextInput
             mode="outlined"
             label="Year"
             style={[styles.input, {flex: 1, marginLeft: 8}]}
             placeholder="Currunt Year"
-            value={calculateYear(semester)}
-            placeholderTextColor={styles.input.color}
+            value={year}
+            placeholderTextColor={styles.placeholder.color}
+            outlineStyle={{
+              borderColor: theme.colors.primary,
+              borderRadius: 5,
+            }}
+            activeOutlineColor="#2f3033"
             disabled
           />
         </View>
@@ -207,12 +262,40 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
           placeholder="Department"
           onChangeText={setDepartment}
           value={department}
-          placeholderTextColor={styles.input.color}
+          placeholderTextColor={styles.placeholder.color}
+          outlineStyle={{
+            borderColor: theme.colors.primary,
+            borderRadius: 5,
+          }}
+          activeOutlineColor="#2f3033"
         />
-
+        <TextInput
+          mode="outlined"
+          label="Admission Date"
+          style={styles.input}
+          placeholder="PIN Code"
+          value={batch.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: '2-digit',
+          })}
+          right={
+            <TextInput.Icon
+              icon={() => <FontAwesome5 name="calendar" size={16} />}
+              style={styles.icon}
+              onPress={() => setOpen(true)}
+            />
+          }
+          outlineStyle={{
+            borderColor: theme.colors.primary,
+            borderRadius: 5,
+          }}
+          activeOutlineColor="#2f3033"
+          placeholderTextColor={styles.placeholder.color}
+        />
         <DatePicker
           modal
-          mode="date"
+          mode='date'
           open={open}
           date={batch}
           onConfirm={batch => {
@@ -235,19 +318,15 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
             mode="outlined"
             label="Batch"
             style={styles.option}
-            placeholder="Starting Batch"
             value={batch.toLocaleDateString('en-US', {
               year: 'numeric',
-              month: 'long',
             })}
-            right={
-              <TextInput.Icon
-                icon={() => <FontAwesome5 name="calendar" size={16} />}
-                style={styles.icon}
-                onPress={() => setOpen(true)}
-              />
-            }
-            placeholderTextColor={styles.input.color}
+            placeholderTextColor={styles.placeholder.color}
+            outlineStyle={{
+              borderColor: theme.colors.primary,
+              borderRadius: 5,
+            }}
+            activeOutlineColor="#2f3033"
           />
 
           <SelectList
@@ -266,7 +345,7 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
             placeholder="Semester"
             dropdownTextStyles={{color: 'black'}}
             dropdownStyles={{
-              marginLeft: 24,
+              marginLeft: 10,
               width: '60%',
               zIndex: 1,
               position: 'relative',
@@ -275,17 +354,6 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
             inputStyles={{color: 'black', fontSize: 12}}
           />
         </View>
-        {
-          <Text
-            style={{
-              color: 'red',
-              marginTop: -10,
-              marginLeft: -154,
-              fontSize: 12,
-            }}>
-            Select admission year
-          </Text>
-        }
         <View
           style={{
             width: '90%',
@@ -302,7 +370,12 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
             placeholder="College Roll Number"
             onChangeText={setCollege_Roll_no}
             value={rollno}
-            placeholderTextColor={styles.input.color}
+            placeholderTextColor={styles.placeholder.color}
+            outlineStyle={{
+              borderColor: theme.colors.primary,
+              borderRadius: 5,
+            }}
+            activeOutlineColor="#2f3033"
           />
           <TextInput
             mode="outlined"
@@ -315,7 +388,13 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
               }
             }}
             value={phone}
-            placeholderTextColor={styles.input.color}
+            placeholderTextColor={styles.placeholder.color}
+            outlineStyle={{
+              borderColor: theme.colors.primary,
+
+              borderRadius: 5,
+            }}
+            activeOutlineColor="#2f3033"
           />
         </View>
         {phone.length < 10 && (
@@ -324,11 +403,143 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
               color: 'red',
               marginTop: -10,
               marginLeft: 154,
-              fontSize: 12,
+              fontSize: 10,
             }}>
             Enter valid phone number
           </Text>
         )}
+        <TextInput
+          mode="outlined"
+          style={styles.input}
+          label="College"
+          placeholder="College"
+          onChangeText={setCollege}
+          value={college}
+          outlineStyle={{
+            borderColor: theme.colors.primary,
+            borderRadius: 5,
+          }}
+          activeOutlineColor="#2f3033"
+          placeholderTextColor={styles.placeholder.color}
+        />
+        <TextInput
+          mode="outlined"
+          label="Aadhaar Card Number"
+          style={styles.input}
+          placeholder="Aadhaar Card Number"
+          onChangeText={text => {
+            if (text.length <= 12) {
+              setAadhaar(text);
+            }
+          }}
+          value={aadhaar}
+          placeholderTextColor={styles.placeholder.color}
+          outlineStyle={{
+            borderColor: theme.colors.primary,
+            borderRadius: 5,
+          }}
+          activeOutlineColor="#2f3033"
+        />
+
+        {aadhaar.length < 12 && (
+          <Text
+            style={{
+              color: 'red',
+              marginTop: -10,
+              fontSize: 10,
+            }}>
+            Enter your valid Aadhaar number
+          </Text>
+        )}
+        <View
+          style={{
+            width: '90%',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <TextInput
+            mode="outlined"
+            label="Father's Name"
+            style={[styles.input, {width: '58%'}]}
+            placeholder="Father Name"
+            value={fatherName}
+            onChangeText={setFatherName}
+            outlineStyle={{
+              borderColor: theme.colors.primary,
+              borderRadius: 5,
+            }}
+            activeOutlineColor="#2f3033"
+            placeholderTextColor={styles.placeholder.color}
+          />
+          <TextInput
+            mode="outlined"
+            label="Postal Code"
+            style={[styles.input, {width: '40%', marginLeft: 6}]}
+            placeholder="PIN Code"
+            value={homepostalcode}
+            onChangeText={setHomePostalCode}
+            outlineStyle={{
+              borderColor: theme.colors.primary,
+              borderRadius: 5,
+            }}
+            activeOutlineColor="#2f3033"
+            placeholderTextColor={styles.placeholder.color}
+          />
+        </View>
+
+        <TextInput
+          mode="outlined"
+          label="Residential Address"
+          style={styles.input}
+          placeholder="Resident Address"
+          value={residentAddress}
+          onChangeText={setResidentAddress}
+          outlineStyle={{
+            borderColor: theme.colors.primary,
+            borderRadius: 5,
+          }}
+          activeOutlineColor="#2f3033"
+          placeholderTextColor={styles.placeholder.color}
+        />
+        <View
+          style={{
+            width: '90%',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}>
+          <TextInput
+            mode="outlined"
+            label="State"
+            style={[styles.input, {flex: 1}]}
+            placeholder="State"
+            value={homestate}
+            onChangeText={setHomeState}
+            outlineStyle={{
+              borderColor: theme.colors.primary,
+              borderRadius: 5,
+            }}
+            activeOutlineColor="#2f3033"
+            placeholderTextColor={styles.placeholder.color}
+          />
+          <TextInput
+            mode="outlined"
+            label="District"
+            style={[styles.input, {flex: 1, marginLeft: 8}]}
+            placeholder="District"
+            value={district}
+            onChangeText={setDistrict}
+            outlineStyle={{
+              borderColor: theme.colors.primary,
+              borderRadius: 5,
+            }}
+            activeOutlineColor="#2f3033"
+            placeholderTextColor={styles.placeholder.color}
+          />
+        </View>
         <TextInput
           mode="outlined"
           label="Password"
@@ -339,7 +550,12 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
             setPasswordMatch(text === confirmPassword); // Check if passwords match
           }}
           value={password}
-          placeholderTextColor={styles.input.color}
+          placeholderTextColor={styles.placeholder.color}
+          outlineStyle={{
+            borderColor: theme.colors.primary,
+            borderRadius: 5,
+          }}
+          activeOutlineColor="#2f3033"
           secureTextEntry
         />
         <TextInput
@@ -352,7 +568,12 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
             setPasswordMatch(text === password); // Check if passwords match
           }}
           value={confirmPassword}
-          placeholderTextColor={styles.input.color}
+          placeholderTextColor={styles.placeholder.color}
+          outlineStyle={{
+            borderColor: theme.colors.primary,
+            borderRadius: 5,
+          }}
+          activeOutlineColor="#2f3033"
           secureTextEntry
         />
         {!passwordMatch && (
@@ -369,8 +590,14 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
         <Button
           mode="contained"
           onPress={handleSignup}
-          style={{borderRadius: 5, width: '50%'}}>
-          <Text style={{fontSize: 16}}>Sign In</Text>
+          style={{
+            borderRadius: 5,
+            width: '50%',
+            backgroundColor: theme.colors.secondary,
+          }}>
+          <Text style={{fontSize: 16, color: theme.colors.ontertiary}}>
+            Sign In
+          </Text>
         </Button>
       </View>
     </ScrollView>

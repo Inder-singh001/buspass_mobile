@@ -8,7 +8,6 @@ import {
 } from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {tokens} from 'react-native-paper/lib/typescript/styles/themes/v3/tokens';
 
 interface AuthProps {
   authState?: {token: string | null; authenticated: boolean | null};
@@ -51,26 +50,30 @@ export const AuthProvider = ({children}: any) => {
       const result = await axios.post(`${API_URL}/login`, {email, password});
       console.log(`${JSON.stringify(result)}`);
       console.log(`${JSON.stringify(result.data.token)}`);
+      console.log(result.status);
 
-      setAuthState({
-        token: result.data.token,
-        authenticated: true,
-      });
+      if (result.status === 200) {
+        setAuthState({
+          token: result.data.token,
+          authenticated: true,
+        });
 
-      axios.defaults.headers.common[
-        'Authorization'
-      ] = `Bearer ${result.data.token}`;
+        axios.defaults.headers.common[
+          'Authorization'
+        ] = `Bearer ${result.data.token}`;
 
-      await AsyncStorage.setItem(TOKEN_KEY, result.data.token);
-
+        await AsyncStorage.setItem(TOKEN_KEY, result.data.token);
+      }
       return result;
     } catch (error) {
       console.error('Login failed:', error);
+
       return {error: true, message: (error as any).response.data.message};
     }
   };
 
   const logout = async () => {
+    await axios.post(`${API_URL}/logout`);
     //Remove token from storage
     await AsyncStorage.removeItem(TOKEN_KEY);
 

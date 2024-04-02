@@ -13,7 +13,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
 import {CommonActions, NavigationProp} from '@react-navigation/native';
 import DatePicker from 'react-native-date-picker';
-import TermsConditons from '../../components/T_Cagreement';
+import {theme} from '../../theme/colors';
 
 interface AppProps {
   navigation: NavigationProp<any>;
@@ -37,7 +37,6 @@ const Request: React.FC<AppProps> = ({navigation}) => {
   const [district, setDistrict] = useState('');
   const [month, setMonth] = useState('');
   const [checked, setChecked] = useState(false);
-  const [termschecked, setTermsChecked] = useState(false);
   const [collegedistrict, setCollegeDistrict] = useState('');
   const [collegestate, setCollegeState] = useState('');
   const [postalcode, setPostalCode] = useState('');
@@ -106,7 +105,6 @@ const Request: React.FC<AppProps> = ({navigation}) => {
         arrivalPlace: arrivalPlace,
         collegeName: collegeName,
         collegeAddress: collegeAddress,
-
         busStopName: busStopName,
         state: state,
         district: district,
@@ -161,7 +159,12 @@ const Request: React.FC<AppProps> = ({navigation}) => {
               placeholder="Father Name"
               value={fatherName}
               onChangeText={setFatherName}
-              placeholderTextColor={styles.input.color}
+              outlineStyle={{
+                borderColor: theme.colors.primary,
+                borderRadius: 5,
+              }}
+              activeOutlineColor="#2f3033"
+              placeholderTextColor={styles.colortext.color}
             />
             <TextInput
               mode="outlined"
@@ -170,7 +173,12 @@ const Request: React.FC<AppProps> = ({navigation}) => {
               placeholder="PIN Code"
               value={homepostalcode}
               onChangeText={setHomePostalCode}
-              placeholderTextColor={styles.input.color}
+              outlineStyle={{
+                borderColor: theme.colors.primary,
+                borderRadius: 5,
+              }}
+              activeOutlineColor="#2f3033"
+              placeholderTextColor={styles.colortext.color}
             />
           </View>
           <TextInput
@@ -180,7 +188,12 @@ const Request: React.FC<AppProps> = ({navigation}) => {
             placeholder="Resident Address"
             value={residentAddress}
             onChangeText={setResidentAddress}
-            placeholderTextColor={styles.input.color}
+            outlineStyle={{
+              borderColor: theme.colors.primary,
+              borderRadius: 5,
+            }}
+            activeOutlineColor="#2f3033"
+            placeholderTextColor={styles.colortext.color}
           />
           <View
             style={{
@@ -198,7 +211,12 @@ const Request: React.FC<AppProps> = ({navigation}) => {
               placeholder="State"
               value={homestate}
               onChangeText={setHomeState}
-              placeholderTextColor={styles.input.color}
+              outlineStyle={{
+                borderColor: theme.colors.primary,
+                borderRadius: 5,
+              }}
+              activeOutlineColor="#2f3033"
+              placeholderTextColor={styles.colortext.color}
             />
             <TextInput
               mode="outlined"
@@ -207,7 +225,12 @@ const Request: React.FC<AppProps> = ({navigation}) => {
               placeholder="District"
               value={busStopCity}
               onChangeText={setBusStopCity}
-              placeholderTextColor={styles.input.color}
+              outlineStyle={{
+                borderColor: theme.colors.primary,
+                borderRadius: 5,
+              }}
+              activeOutlineColor="#2f3033"
+              placeholderTextColor={styles.colortext.color}
             />
           </View>
           <Card style={styles.queCard}>
@@ -224,7 +247,7 @@ const Request: React.FC<AppProps> = ({navigation}) => {
                     flexDirection: 'row',
                     justifyContent: 'center',
                   }}>
-                  <RadioButton value="Yes" />
+                  <RadioButton value="Yes" color="#00adf1" />
                   <Text style={styles.text}>Yes</Text>
                 </View>
                 <View
@@ -232,7 +255,7 @@ const Request: React.FC<AppProps> = ({navigation}) => {
                     flexDirection: 'row',
                     justifyContent: 'center',
                   }}>
-                  <RadioButton value="No" />
+                  <RadioButton value="No" color="#00adf1" />
                   <Text style={styles.text}>No</Text>
                 </View>
               </View>
@@ -252,7 +275,7 @@ const Request: React.FC<AppProps> = ({navigation}) => {
                     flexDirection: 'row',
                     justifyContent: 'center',
                   }}>
-                  <RadioButton value="Yes" />
+                  <RadioButton value="Yes" color="#00adf1" />
                   <Text style={styles.text}>Yes</Text>
                 </View>
                 <View
@@ -260,7 +283,7 @@ const Request: React.FC<AppProps> = ({navigation}) => {
                     flexDirection: 'row',
                     justifyContent: 'center',
                   }}>
-                  <RadioButton value="No" />
+                  <RadioButton value="No" color="#00adf1" />
                   <Text style={styles.text}>No</Text>
                 </View>
               </View>
@@ -280,7 +303,7 @@ const Request: React.FC<AppProps> = ({navigation}) => {
                     flexDirection: 'row',
                     justifyContent: 'center',
                   }}>
-                  <RadioButton value="Yes" />
+                  <RadioButton value="Yes" color="#00adf1" />
                   <Text style={styles.text}>Yes</Text>
                 </View>
                 <View
@@ -288,7 +311,7 @@ const Request: React.FC<AppProps> = ({navigation}) => {
                     flexDirection: 'row',
                     justifyContent: 'center',
                   }}>
-                  <RadioButton value="No" />
+                  <RadioButton value="No" color="#00adf1" />
                   <Text style={styles.text}>No</Text>
                 </View>
               </View>
@@ -315,7 +338,12 @@ const Request: React.FC<AppProps> = ({navigation}) => {
               placeholder="College Name"
               value={collegeName}
               onChangeText={setCollegeName}
-              placeholderTextColor={styles.input.color}
+              outlineStyle={{
+                borderColor: theme.colors.primary,
+                borderRadius: 5,
+              }}
+              activeOutlineColor="#2f3033"
+              placeholderTextColor={styles.colortext.color}
             />
             <TextInput
               mode="outlined"
@@ -324,7 +352,12 @@ const Request: React.FC<AppProps> = ({navigation}) => {
               placeholder="PIN Code"
               value={postalcode}
               onChangeText={setPostalCode}
-              placeholderTextColor={styles.input.color}
+              outlineStyle={{
+                borderColor: theme.colors.primary,
+                borderRadius: 5,
+              }}
+              activeOutlineColor="#2f3033"
+              placeholderTextColor={styles.colortext.color}
             />
           </View>
           <TextInput
@@ -334,7 +367,12 @@ const Request: React.FC<AppProps> = ({navigation}) => {
             placeholder="College Name"
             value={collegeAddress}
             onChangeText={setCollegeAddress}
-            placeholderTextColor={styles.input.color}
+            outlineStyle={{
+              borderColor: theme.colors.primary,
+              borderRadius: 5,
+            }}
+            activeOutlineColor="#2f3033"
+            placeholderTextColor={styles.colortext.color}
           />
           <View
             style={{
@@ -352,7 +390,7 @@ const Request: React.FC<AppProps> = ({navigation}) => {
               placeholder="State"
               value={collegestate}
               onChangeText={setCollegeState}
-              placeholderTextColor={styles.input.color}
+              placeholderTextColor={styles.colortext.color}
             />
             <TextInput
               mode="outlined"
@@ -361,7 +399,12 @@ const Request: React.FC<AppProps> = ({navigation}) => {
               placeholder="District"
               value={collegedistrict}
               onChangeText={setCollegeDistrict}
-              placeholderTextColor={styles.input.color}
+              outlineStyle={{
+                borderColor: theme.colors.primary,
+                borderRadius: 5,
+              }}
+              activeOutlineColor="#2f3033"
+              placeholderTextColor={styles.colortext.color}
             />
           </View>
           <DatePicker
@@ -387,12 +430,19 @@ const Request: React.FC<AppProps> = ({navigation}) => {
             })}
             right={
               <TextInput.Icon
-                icon={() => <FontAwesome5 name="calendar" size={16} />}
+                icon={() => (
+                  <FontAwesome5 name="calendar" size={16} color={'#2f3033'} />
+                )}
                 style={styles.icon}
                 onPress={() => setOpen(true)}
               />
             }
-            placeholderTextColor={styles.input.color}
+            outlineStyle={{
+              borderColor: theme.colors.primary,
+              borderRadius: 5,
+            }}
+            activeOutlineColor="#2f3033"
+            placeholderTextColor={styles.colortext.color}
           />
         </Card.Content>
       </Card>
@@ -408,7 +458,12 @@ const Request: React.FC<AppProps> = ({navigation}) => {
             placeholder="Bus Stop Name"
             value={busStopName}
             onChangeText={setBusStopName}
-            placeholderTextColor={styles.input.color}
+            outlineStyle={{
+              borderColor: theme.colors.primary,
+              borderRadius: 5,
+            }}
+            activeOutlineColor="#2f3033"
+            placeholderTextColor={styles.colortext.color}
           />
           <View
             style={{
@@ -426,7 +481,12 @@ const Request: React.FC<AppProps> = ({navigation}) => {
               placeholder="State"
               value={state}
               onChangeText={setState}
-              placeholderTextColor={styles.input.color}
+              outlineStyle={{
+                borderColor: theme.colors.primary,
+                borderRadius: 5,
+              }}
+              activeOutlineColor="#2f3033"
+              placeholderTextColor={styles.colortext.color}
             />
             <TextInput
               mode="outlined"
@@ -435,7 +495,12 @@ const Request: React.FC<AppProps> = ({navigation}) => {
               placeholder="District"
               value={district}
               onChangeText={setDistrict}
-              placeholderTextColor={styles.input.color}
+              outlineStyle={{
+                borderColor: theme.colors.primary,
+                borderRadius: 5,
+              }}
+              activeOutlineColor="#2f3033"
+              placeholderTextColor={styles.colortext.color}
             />
           </View>
           <View>
@@ -447,7 +512,12 @@ const Request: React.FC<AppProps> = ({navigation}) => {
               placeholder="Departure Place"
               value={departurePlace}
               onChangeText={setDeparturePlace}
-              placeholderTextColor={styles.input.color}
+              outlineStyle={{
+                borderColor: theme.colors.primary,
+                borderRadius: 5,
+              }}
+              activeOutlineColor="#2f3033"
+              placeholderTextColor={styles.colortext.color}
             />
             <Text>Bus Stop To:</Text>
             <TextInput
@@ -457,7 +527,12 @@ const Request: React.FC<AppProps> = ({navigation}) => {
               placeholder="Arrival Place"
               value={arrivalPlace}
               onChangeText={setArrivalPlace}
-              placeholderTextColor={styles.input.color}
+              outlineStyle={{
+                borderColor: theme.colors.primary,
+                borderRadius: 5,
+              }}
+              activeOutlineColor="#2f3033"
+              placeholderTextColor={styles.colortext.color}
             />
             <Text variant="labelLarge" style={styles.queCardTitle}>
               For Date:
@@ -492,22 +567,25 @@ const Request: React.FC<AppProps> = ({navigation}) => {
           </View>
 
           <View style={{paddingTop: 8}}>
-            <Text variant="bodyLarge">*Note</Text>
+            <Text variant="bodyLarge" style={{color: theme.colors.onPrimary}}>
+              *Note
+            </Text>
             <View style={{flexDirection: 'row'}}>
               <Checkbox
                 status={checked ? 'checked' : 'unchecked'}
+                color="#00adf1"
                 onPress={() => {
                   setChecked(!checked);
                 }}
               />
               <Text style={styles.textNote}>
-                The Distance is more than 60KM
+                The Distance is between 60KM.
               </Text>
             </View>
           </View>
         </Card.Content>
       </Card>
-      <View style={{flexDirection: 'row'}}>
+      {/* <View style={{flexDirection: 'row'}}>
         <Checkbox
           status={termschecked ? 'checked' : 'unchecked'}
           onPress={() => {
@@ -516,40 +594,21 @@ const Request: React.FC<AppProps> = ({navigation}) => {
         />
         <Text style={styles.textNote}>
           Agree to the
-          <Text onPress={TermsConditons} style={{color: '#11B5E4'}}>
-            Terms and conditions
-          </Text>
+          <Text style={{color: '#11B5E4'}}>Terms and conditions</Text>
         </Text>
-      </View>
+      </View> */}
 
-      {/* <TextInput
-        style={styles.input}
-        placeholder="Bus Pass Receipt No."
-        value={busPassReceiptNo}
-        onChangeText={setBusPassReceiptNo}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="End Date"
-        value={endDate}
-        onChangeText={setEndDate}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Bus Pass No."
-        value={busPassNo}
-        onChangeText={setBusPassNo}
-      /> */}
-      {/* <Button
-        mode="contained"
-        style={{backgroundColor: 'midnightblue'}}
-        onPress={() => console.log('Import files')}>
-        <Text> Import Files</Text>
-      </Button> */}
-      {/* {editMode ? 'Disable Edit Mode' : 'Enable Edit Mode'} */}
+      
       <Button
         mode="contained"
-        style={{backgroundColor: 'midnightblue'}}
+        style={styles.button}
+        onPress={() => navigation.navigate('DocUpload')}>
+        Import Files
+      </Button>
+      
+      <Button
+        mode="contained"
+        style={styles.button}
         onPress={handleSubmit}>
         Submit
       </Button>

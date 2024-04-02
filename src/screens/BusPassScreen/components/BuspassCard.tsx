@@ -12,7 +12,7 @@ const BusPassCard: React.FC<BusPassCardProps> = ({navigation}) => {
     navigation.navigate('BusPass');
   };
   return (
-    <Card onPress={handlecard} style={styles.button}>
+    <Card onPress={handlecard} style={styles.button} mode='contained'>
       <Card.Cover source={require('../../../assets/images/buspass.jpg')} style={styles.img}/>
     </Card>
   );

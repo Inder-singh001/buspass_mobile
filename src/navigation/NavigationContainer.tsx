@@ -2,22 +2,26 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LoginScreen from '../screens/LoginPage/Login';
-import SignInScreen from '../screens/SignInPage/Sign-In';
+import SignUpScreen from '../screens/SignUpPage/SignUp';
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
-import Request_Form from '../screens/AppllicationScreen/Application_Form';
+import Request_Form from '../screens/ApplicationScreen/Application_Form';
 import ProfileScreen from '../screens/ProfileScreen/Profile';
-import VerifyOtp from '../screens/SignInPage/components/OtpVerification';
+import VerifyOtp from '../screens/SignUpPage/components/OtpVerification';
 import Forgetpassword from '../screens/LoginPage/components/forgetPass';
-import Notify from '../screens/HomeScreen/components/NotificationtoggleButton';
 import BusPassScreen from '../screens/BusPassScreen/BusPassScreen';
 import NotificationScreen from '../screens/NotificationScreen/NotificationScreen';
 import {useAuth} from '../context/AuthContext';
 import {Button, Text} from 'react-native-paper';
+import ReNewRequest from '../screens/ApplicationScreen/ReNewAppForm';
+import {styles} from '../screens/LoginPage/styles';
+import {theme} from '../theme/colors';
+import { DocUpload } from '../screens/ApplicationScreen/components/Documents';
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
   const {authState, onLogout} = useAuth();
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -25,12 +29,17 @@ const Navigation = () => {
           <Stack.Screen
             name="Home"
             component={HomeScreen}
-            
             options={{
               title: 'DIGIPass',
               headerRight: () => (
-                <Button onPress={onLogout}>
-                  <Text variant="titleSmall">Logout</Text>
+                <Button
+                  onPress={onLogout}
+                  style={{ borderRadius: 5}}>
+                  <Text
+                    variant="titleSmall"
+                    style={{color: theme.colors.onPrimary}}>
+                    Logout
+                  </Text>
                 </Button>
               ),
             }}
@@ -39,17 +48,23 @@ const Navigation = () => {
           <Stack.Screen
             name="Login"
             component={LoginScreen}
+            options={{title: 'DIGIPass'}}
           />
         )}
         <Stack.Screen
           name="SignUp"
-          component={SignInScreen}
-          options={{title: 'Sign-In'}}
+          component={SignUpScreen}
+          options={{title: 'DIGIPass'}}
         />
         <Stack.Screen
           name="App_form"
           component={Request_Form}
           options={{title: 'Request Bus Pass Form'}}
+        />
+        <Stack.Screen
+          name="ReNewApp_form"
+          component={ReNewRequest}
+          options={{title: 'Re-New Request '}}
         />
         <Stack.Screen
           name="Profile"
@@ -68,6 +83,8 @@ const Navigation = () => {
         />
         <Stack.Screen name="OtpVerify" component={VerifyOtp} />
         <Stack.Screen name="ForgetPass" component={Forgetpassword} />
+        <Stack.Screen name="DocUpload" component={DocUpload} />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

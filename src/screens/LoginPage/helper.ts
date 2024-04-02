@@ -1,42 +1,46 @@
+// import {API_URL} from '@env';
 import axios from 'axios';
-import { Alert } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {API_URL} from '../../context/AuthContext';
 
-// Interface for the authentication response
-interface AuthResponse {
-  token: string;
+interface UserProps {
+  id: string;
+  name: string;
 }
 
-// Variable to store the authentication token
-let authToken: string | null = null;
+const fetchUserName = async () => {
 
-// Function to authenticate the user
-export const authenticateUser = async (email: string, password: string): Promise<boolean> => {
-    const loginUrl = 'https://amr.sytes.net/login';
   try {
-    // Make a POST request to your authentication endpoint (replace 'authUrl' with your actual authentication endpoint)
-    const response = await axios.post<AuthResponse>(loginUrl, { email, password });
-
-    // Extract the authentication token from the response
-    authToken = response.data.token;
-
-    // Return true to indicate successful authentication
-    return true;
+    const response = await axios.get<UserProps[]>(`${API_URL}/get/users`);
+    const users = response.data;
+    // Assuming you want to fetch the name of the first user in the array
+    if (users.length > 0) {
+      const userName = users[0].name;
+      return userName;
+    } else {
+      console.error('No users found');
+      return '';
+    }
   } catch (error) {
-    // Handle authentication error
-    console.error('Authentication failed:', error);
-    Alert.alert('Authentication Failed', 'Invalid email or password');
-    return false; // Return false in case of authentication failure
+    console.error('Failed to fetch user name:', error);
+    return '';
   }
 };
 
-// Function to check if the user is authenticated
-export const checkAuthentication = (): boolean => {
-  // Return true if the authentication token exists (user is authenticated)
-  // Return false if the authentication token doesn't exist (user is not authenticated)
-  return !!authToken;
-};
+// try {
+//   // Make a GET request to fetch user's name
+//   const response = await axios.get(`${API_URL}/user/name`, {
+//     headers: {
+//       Authorization: `Bearer ${authState.token}`,
+//     },
+//   });
 
-// Function to get the authentication token
-export const getAuthToken = (): string | null => {
-  return authToken;
-};
+//   // Assuming the response contains the user's name
+//   const userName = response.data.name;
+
+//   // Update user's name in the state or wherever you want to store it
+//   setUserFullName(userName);
+// } catch (error) {
+//   console.error('Failed to fetch user name:', error);
+
+export default fetchUserName;
