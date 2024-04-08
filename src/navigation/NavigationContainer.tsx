@@ -13,9 +13,7 @@ import NotificationScreen from '../screens/NotificationScreen/NotificationScreen
 import {useAuth} from '../context/AuthContext';
 import {Button, Text} from 'react-native-paper';
 import ReNewRequest from '../screens/ApplicationScreen/ReNewAppForm';
-import {styles} from '../screens/LoginPage/styles';
 import {theme} from '../theme/colors';
-import { DocUpload } from '../components/DocumentsUpload/Documents';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,9 +30,7 @@ const Navigation = () => {
             options={{
               title: 'DIGIPass',
               headerRight: () => (
-                <Button
-                  onPress={onLogout}
-                  style={{ borderRadius: 5}}>
+                <Button onPress={onLogout} style={{borderRadius: 5}}>
                   <Text
                     variant="titleSmall"
                     style={{color: theme.colors.onPrimary}}>
@@ -83,8 +79,6 @@ const Navigation = () => {
         />
         <Stack.Screen name="OtpVerify" component={VerifyOtp} />
         <Stack.Screen name="ForgetPass" component={Forgetpassword} />
-       
-        
       </Stack.Navigator>
     </NavigationContainer>
   );

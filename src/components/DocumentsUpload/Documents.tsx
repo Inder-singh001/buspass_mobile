@@ -21,8 +21,6 @@ export const DocUpload: React.FC<DocProps> = ({visible, onDismiss}) => {
         type: [DocumentPicker.types.images],
       });
       setPassportImage(image.uri);
-      const Imgname = DocumentPicker.types.images;
-      // setPassportImage(image.name);
       console.log(image);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
@@ -31,7 +29,6 @@ export const DocUpload: React.FC<DocProps> = ({visible, onDismiss}) => {
       } else console.log(err);
     }
   };
-  console.log('Image URI:', passportImage);
   const removeImg = () => {
     setPassportImage(null);
   };
@@ -65,13 +62,13 @@ export const DocUpload: React.FC<DocProps> = ({visible, onDismiss}) => {
           <View style={styles.section}>
             {passportImage ? (
               <>
-                <View style={{ flex: 1, aspectRatio: 3 / 4}}>
+                <View style={{flex: 1, aspectRatio: 3 / 4}}>
                   <Image
                     source={{uri: passportImage}}
                     style={{
                       flex: 1,
                       width: '100%',
-     
+
                       resizeMode: 'cover',
                     }}
                     onError={error =>
@@ -104,7 +101,7 @@ export const DocUpload: React.FC<DocProps> = ({visible, onDismiss}) => {
                 </View>
                 <Text style={{padding: 12}}> {aadhaarCard}</Text>
 
-                <Button onPress={handleDoc} style={styles.button}>
+                <Button onPress={removeDoc} style={styles.button}>
                   <Text style={styles.text} variant="titleSmall">
                     Remove
                   </Text>

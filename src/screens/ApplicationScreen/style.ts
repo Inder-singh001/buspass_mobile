@@ -5,9 +5,8 @@ export const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 20,
-    marginTop: 8,
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: theme.colors.white,
   },
   input: {
     fontSize: 12,
@@ -63,6 +62,7 @@ export const styles = StyleSheet.create({
     height: 20,
   },
   button: {
+    flex: 1,
     backgroundColor: theme.colors.secondary,
     borderRadius: 5,
     marginBottom: 12,

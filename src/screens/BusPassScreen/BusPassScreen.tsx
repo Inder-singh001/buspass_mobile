@@ -1,20 +1,82 @@
-import { Text } from "react-native-paper"
+import {Text, TextInput} from 'react-native-paper';
+import {styles} from './styles';
+import {Image, ImageBackground, View} from 'react-native';
+import {theme} from '../../theme/colors';
+import QRCode from 'react-native-qrcode-svg';
+import React from 'react';
+import { fetchUserData } from '../../services/UserApi/UserData';
 
-const BusPassScreen = ()=>{
-    // Your JWT payload (Base64 encoded)
-    const jwtPayloadBase64 = 'eyJpZCI6MzcsIm5hbWUiOiJBbXJpbmRlciBTaW5naCIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInR5cGUiOiJzdHVkZW50IiwiaWF0IjoxNzExODk5OTY2LCJleHAiOjE3MTE5MDM1NjZ9';
-    
-    // Decode the payload
-    const decodedPayload = decode(jwtPayloadBase64);
-    
-    // Parse the decoded payload as JSON
-    const payloadJSON = JSON.parse(decodedPayload);
-    
-    console.log(payloadJSON);
-    return(
-        <Text>Bus Pass</Text>
-    )
+const BusPassScreen = () => {
+  const [studentData, setStudentData] = React.useState<string>(''); // State to store username
+
+  React.useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+        const studentData = await fetchUserData();
+        setStudentData(studentData);
+        console.log(studentData);
+      } catch {
+        console.log('error fetching name');
+      }
+    };
+    fetchUserName();
+  }, []);
+
+  return (
+    <ImageBackground
+      source={require('../../assets/images/buspass_background.png')}
+      style={styles.background}>
+      <View style={styles.dataContainer}>
+        <View style={styles.receipt}>
+          <Text style={styles.receiptText}>Receipt No.</Text>
+          <TextInput
+            mode="flat"
+            style={{width: '55%', backgroundColor: theme.colors.background}}
+            dense
+            contentStyle={{
+              paddingLeft: 6,
+              paddingRight: 6,
+              height: 24,
+            }}
+            disabled
+          />
+        </View>
+        <View style={styles.studentData}>
+          <Text style={styles.studentName}>Inderpreet Singh</Text>
+          <Image
+            source={require('../../assets/images/ProfileImg.png')}
+            style={styles.buspassImage}
+          />
+        </View>
+        <View style={styles.places}>
+          <Text style={styles.distance}>Departure</Text>
+          <Image
+            source={require('../../assets/images/arrow.png')}
+            style={styles.arrow}
+          />
+          <Text style={styles.distance}>Arrival</Text>
+        </View>
+        <View style={styles.service}>
+          <Text style={styles.serviceHead}>PRTC</Text>
+        </View>
+      </View>
+      <View style={styles.qrCodeImage}>
+        <QRCode value="" />
+      </View>
+    </ImageBackground>
+  );
 };
 export default BusPassScreen;
 
-import { decode } from 'base-64';
+// import { decode } from 'base-64';
+
+// // Your JWT payload (Base64 encoded)
+// const jwtPayloadBase64 = 'eyJpZCI6MzcsIm5hbWUiOiJBbXJpbmRlciBTaW5naCIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInR5cGUiOiJzdHVkZW50IiwiaWF0IjoxNzExODk5OTY2LCJleHAiOjE3MTE5MDM1NjZ9';
+
+// // Decode the payload
+// const decodedPayload = decode(jwtPayloadBase64);
+
+// // Parse the decoded payload as JSON
+// const payloadJSON = JSON.parse(decodedPayload);
+
+// console.log(payloadJSON);

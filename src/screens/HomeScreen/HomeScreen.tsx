@@ -7,39 +7,39 @@ import {NavigationProp} from '@react-navigation/native';
 import RenewRequest from './components/Button_ReNew';
 import BusPassCard from '../BusPassScreen/components/BuspassCard';
 import NotifytoggleButton from './components/NotificationtoggleButton';
-import fetchUserName from '../LoginPage/helper';
 import {theme} from '../../theme/colors';
-import {decode} from 'base-64';
+import {fetchUserData} from '../../services/UserApi/UserData';
 
 interface Props {
   navigation: NavigationProp<any>;
-  route: {params: {name: string}};
 }
-const Home: React.FC<Props> = ({navigation, route}) => {
-  // const [username, setUsername] = React.useState<string>(''); // State to store username
-
-  // // Your JWT payload (Base64 encoded)
-  // const jwtPayloadBase64 = token;
-
-  // // Decode the payload
-  // const decodedPayload = decode(jwtPayloadBase64);
-
-  // // Parse the decoded payload as JSON
-  // const payloadJSON = JSON.parse(decodedPayload);
-
-  // console.log(payloadJSON);
+const Home: React.FC<Props> = ({navigation}) => {
+  const [username, setUsername] = React.useState<string>(''); // State to store username
+  
+  React.useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+        const username = await fetchUserData();
+        setUsername(username.name);
+        console.log(username.name);
+      } catch {
+        console.log('error fetching name');
+      }
+    };
+    fetchUserName();
+  }, []);
   return (
     <>
       <View style={styles.container}>
         <Text variant="titleLarge" style={{color: theme.colors.onPrimary}}>
-          Welcome
+          Welcome,
         </Text>
         <View style={styles.card}>
           <TouchableRipple
             style={{}}
             onPress={() => navigation.navigate('Profile')}>
-            <Text variant="displaySmall" style={styles.input}>
-              {/* {username} */}name
+            <Text variant="headlineSmall" style={styles.input}>
+              {username}
             </Text>
           </TouchableRipple>
           <Avatar.Image
