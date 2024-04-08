@@ -3,23 +3,28 @@ import {styles} from './styles';
 import {Image, ImageBackground, View} from 'react-native';
 import {theme} from '../../theme/colors';
 import QRCode from 'react-native-qrcode-svg';
-import React from 'react';
+import React, { useState } from 'react';
 import { fetchUserData } from '../../services/UserApi/UserData';
 
+interface BusPassProps {
+  name : string;
+}
+
 const BusPassScreen = () => {
-  const [studentData, setStudentData] = React.useState<string>(''); // State to store username
+  const [studentData, setStudentData] = useState<BusPassProps | null>(null); // State to store username
 
   React.useEffect(() => {
-    const fetchUserName = async () => {
+    const fetchStudent = async () => {
       try {
         const studentData = await fetchUserData();
         setStudentData(studentData);
         console.log(studentData);
+        // console.log(studentData.name);
       } catch {
-        console.log('error fetching name');
+        console.log('error fetching data');
       }
     };
-    fetchUserName();
+    fetchStudent();
   }, []);
 
   return (
@@ -42,7 +47,7 @@ const BusPassScreen = () => {
           />
         </View>
         <View style={styles.studentData}>
-          <Text style={styles.studentName}>Inderpreet Singh</Text>
+          <Text style={styles.studentName}>{studentData?.name}</Text>
           <Image
             source={require('../../assets/images/ProfileImg.png')}
             style={styles.buspassImage}
@@ -61,7 +66,7 @@ const BusPassScreen = () => {
         </View>
       </View>
       <View style={styles.qrCodeImage}>
-        <QRCode value="" />
+        <QRCode value={JSON.stringify(studentData)} size={200}  />
       </View>
     </ImageBackground>
   );

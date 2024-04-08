@@ -72,11 +72,13 @@ export const styles = StyleSheet.create({
     fontWeight: '700',
   },
   qrCodeImage: {
-    width: '60%',
+    width: '58%',
     height: '30%',
     position: 'absolute',
     alignItems: 'center',
-    bottom: 50,
+    bottom: 48,
+    paddingTop:6,
+    backgroundColor: theme.colors.background
   },
 
   button: {
