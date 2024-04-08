@@ -22,6 +22,8 @@ const LoginScreen: React.FC<Props> = ({navigation}) => {
   const handleLogin = async () => {
     const result = await onLogin!(email, password);
     if (result && result.error) {
+      Alert.alert('Access Denied', 'Account not yet approved.');
+    } else if (result && result.status === 403) {
       Alert.alert('Error', 'Invalid email or password');
     }
   };

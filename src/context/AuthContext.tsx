@@ -8,6 +8,7 @@ import {
 } from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Alert} from 'react-native';
 
 interface AuthProps {
   authState?: {token: string | null; authenticated: boolean | null};
@@ -16,7 +17,7 @@ interface AuthProps {
 }
 
 const TOKEN_KEY = 'my-jwt';
-export const API_URL = 'https://amr.sytes.net';
+export const API_URL = 'https://amr.sytes.net/mobile';
 const AuthContext = createContext<AuthProps>({});
 
 export const useAuth = () => {
@@ -45,7 +46,6 @@ export const AuthProvider = ({children}: any) => {
     loadToken();
   }, []);
 
-
   const login = async (email: string, password: string) => {
     try {
       const result = await axios.post(`${API_URL}/login`, {email, password});
@@ -64,7 +64,10 @@ export const AuthProvider = ({children}: any) => {
         ] = `Bearer ${result.data.token}`;
 
         await AsyncStorage.setItem(TOKEN_KEY, result.data.token);
+      } else if (result.status === 403) {
+        Alert.alert('Access Denied', 'You are not approved.');
       }
+
       return result;
     } catch (error) {
       console.error('Login failed:', error);

@@ -49,6 +49,8 @@ const ProfileScreen: React.FC<UserData> = ({}) => {
   const [editMode, setEditMode] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
   const [validEmail, setValidEmail] = useState(true);
+  const [adDate, setAdDate] = useState('');
+  const [stuBatch, setStuBatch] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,6 +58,10 @@ const ProfileScreen: React.FC<UserData> = ({}) => {
         const userData = await fetchUserData();
 
         setUserData(userData);
+        const adDate = userData.admission_date.substring(0,10);
+        setAdDate(adDate);
+        const stuBatch = userData.admission_date.substring(0,4);
+        setAdDate(stuBatch);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -253,7 +259,7 @@ const ProfileScreen: React.FC<UserData> = ({}) => {
                 label="Admission Date"
                 style={styles.input}
                 placeholder="PIN Code"
-                value={userData.admission_date}
+                value={adDate}
                 //   toLocaleDateString('en-US', {
                 //   year: 'numeric',
                 //   month: 'long',
@@ -350,7 +356,7 @@ const ProfileScreen: React.FC<UserData> = ({}) => {
                   label="Batch"
                   style={styles.option}
                   placeholder="Starting Batch"
-                  value={userData.batch}
+                  value={stuBatch}
                   //   .toLocaleDateString('en-US', {
                   //   year: 'numeric',
                   // })}

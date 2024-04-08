@@ -14,6 +14,7 @@ import {useAuth} from '../context/AuthContext';
 import {Button, Text} from 'react-native-paper';
 import ReNewRequest from '../screens/ApplicationScreen/ReNewAppForm';
 import {theme} from '../theme/colors';
+import {Image} from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,9 @@ const Navigation = () => {
             component={HomeScreen}
             options={{
               title: 'DIGIPass',
+              headerLeft: () => (
+                <Image source={require('../assets/images/homeLogo.png')} />
+              ),
               headerRight: () => (
                 <Button onPress={onLogout} style={{borderRadius: 5}}>
                   <Text
@@ -44,7 +48,12 @@ const Navigation = () => {
           <Stack.Screen
             name="Login"
             component={LoginScreen}
-            options={{title: 'DIGIPass'}}
+            options={{
+              title: 'DIGIPass',
+              headerLeft: () => (
+                <Image source={require('../assets/images/homeLogo.png')} />
+              ),
+            }}
           />
         )}
         <Stack.Screen

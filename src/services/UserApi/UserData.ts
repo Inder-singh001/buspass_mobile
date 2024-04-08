@@ -8,7 +8,7 @@ export  const fetchUserData = async () => {
       if (token) {
         console.log('Token from AsyncStorage:', token);
         const response = await axios.get(
-          'https://amr.sytes.net/get/student',
+          'https://amr.sytes.net/mobile/get/student',
           {
             headers: {
               Cookie: `token=${token}`,

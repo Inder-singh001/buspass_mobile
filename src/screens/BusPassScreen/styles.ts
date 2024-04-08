@@ -34,6 +34,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     margin: 12,
+    height: '36%',
     display: 'flex',
   },
   studentName: {
