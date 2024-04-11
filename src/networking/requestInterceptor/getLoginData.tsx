@@ -1,20 +1,22 @@
-import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Assuming email and password are collected from user input in your Login screen
-const authLogin = async (email: string, password: string) => {
+
+ export const getTokenFromStorage = async () => {
   try {
-    const response = await axios.post('http://localhost:8000/get/students', {
-      email,
-      password,
-    });
-    console.log(response.data);
-    // Handle login success
-    return response.data; // You may want to return some data to the caller
+    const token = await AsyncStorage.getItem('my-jwt');
+    
+    if (token !== null) {
+      console.log('JWT token retrieved successfully:', token);
+      console.log(token);
+      return token;
+    } else {
+      console.log('No JWT token found in AsyncStorage');
+      return null;
+    }
   } catch (error) {
-    console.error('Error logging in', error);
-    // Handle login failure
-    throw error; // You may want to throw the error to the caller
+    console.error('Error retrieving JWT token:', error);
+    return null;
   }
 };
 
-export default authLogin;
+
