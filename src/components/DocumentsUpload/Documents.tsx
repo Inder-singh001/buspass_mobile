@@ -5,6 +5,8 @@ import {Button, Text} from 'react-native-paper';
 import {styles} from './styles';
 import {NavigationProp} from '@react-navigation/native';
 import {theme} from '../../theme/colors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 // import Pdf from 'react-native-pdf';
 
 interface DocProps {
@@ -29,6 +31,7 @@ export const DocUpload: React.FC<DocProps> = ({visible, onDismiss}) => {
       } else console.log(err);
     }
   };
+
   const removeImg = () => {
     setPassportImage(null);
   };
@@ -50,6 +53,54 @@ export const DocUpload: React.FC<DocProps> = ({visible, onDismiss}) => {
   const removeDoc = () => {
     setAadhaarCard(null);
   };
+
+  // const sendToServer = async (aadhaarCard: any) => {
+  //   // Check if both image and aadhaarCard are selected
+  //   if (!passportImage || !aadhaarCard) {
+  //     Alert.alert(
+  //       'Please Upload Files',
+  //       'Both Image and Aadhaar Card are required.',
+  //     );
+  //     return;
+  //   }
+
+  //   const formData = new FormData();
+  //       formData.append('file', {
+  //           uri: aadhaarCard,
+  //           type: 'application/pdf',
+  //           name: 'aadhaarCard.pdf',
+  //       });
+
+  //   try {
+  //     const response = await axios.post(
+  //       'https://amr.sytes.net/mobile/upload/pdf',
+  //       formData,
+  //       {
+  //         headers: {
+  //           'Content-Type': 'application.json', // Required for file uploads
+  //         },
+  //       },
+  //     );
+  //     console.log('Response:', response.data);
+  //     Alert.alert('Success!', 'Image uploaded successfully.');
+  //     onDismiss(); // Close the modal after successful upload
+  //   } catch (error: any) {
+  //     console.error('Error uploading image:', error);
+  //     if (error.response) {
+  //       // The request was made and the server responded with a status code
+  //       // that falls out of the range of 2xx
+  //       Alert.alert(`Server error: ${error.response.status}`);
+  //     } else if (error.request) {
+  //       // The request was made but no response was received
+  //       console.log(error.request)
+  //       Alert.alert('Network error.');
+  //     } else {
+  //       // Something happened in setting up the request that triggered an error
+  //       Alert.alert('Error preparing the upload request.');
+  //     } // Handle errors more informatively (explained below)
+      
+  //   }
+  // };
 
   return (
     <Modal
@@ -127,46 +178,3 @@ export const DocUpload: React.FC<DocProps> = ({visible, onDismiss}) => {
     </Modal>
   );
 };
-// const sendToServer = async () => {
-//   try {
-//     // Create FormData object
-//     const formData = new FormData();
-//     if (passportImage) {
-//       formData.append('passportImage', {
-//         uri: passportImage,
-//         type: 'image/jpeg',
-//         name: 'passportImage.jpg',
-//       });
-//     }
-//     if (aadhaarCard) {
-//       formData.append('aadhaarCard', {
-//         uri: aadhaarCard,
-//         type: 'application/pdf',
-//         name: 'aadhaarCard.pdf',
-//       });
-//     }
-
-//     // Send POST request to server using Axios
-//     const response = await axios.post('YOUR_SERVER_ENDPOINT', formData, {
-//       headers: {
-//         'Content-Type': 'multipart/form-data',
-//         // Add any other headers if required
-//       },
-//     });
-
-//     // Handle response from server
-//     console.log('Server response:', response.data);
-//     // Optionally, you can show a success message to the user
-//     Alert.alert('Documents Uploaded', 'Your documents have been successfully uploaded.');
-
-//     // Clear document URIs from state and AsyncStorage after successful upload
-//     setPassportImage(null);
-//     setAadhaarCard(null);
-//     await AsyncStorage.removeItem('passportImage');
-//     await AsyncStorage.removeItem('aadhaarCard');
-//   } catch (error) {
-//     console.error('Error uploading documents:', error);
-//     // Handle error and show error message to the user
-//     Alert.alert('Error', 'Failed to upload documents. Please try again later.');
-//   }
-// };

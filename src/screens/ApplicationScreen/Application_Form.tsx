@@ -51,7 +51,7 @@ const Request: React.FC<AppProps> = ({navigation}) => {
   const [toDate, setToDate] = useState('');
   // const [collegeName, setCollegeName] = useState('');
   // const [collegeAddress, setCollegeAddress] = useState('');
-  const [busStopName, setBusStopName] = useState('');
+  const [busStopId, setBusStopId] = useState('');
   // const [state, setState] = useState('');
   // const [district, setDistrict] = useState('');
   // const [month, setMonth] = useState('');
@@ -139,7 +139,7 @@ const Request: React.FC<AppProps> = ({navigation}) => {
       to_bus_stop: arrivalPlace,
       from_date: fromDate,
       to_date: toDate,
-      bus_deport_id:busStopName
+      bus_deport_id: busStopId,
     };
 
     // Define the signup endpoint URL
@@ -555,11 +555,11 @@ const Request: React.FC<AppProps> = ({navigation}) => {
           </Text>
           <TextInput
             mode="outlined"
-            label="Bus Stop Name"
+            label="Bus Stop ID"
             style={styles.input}
             placeholder="Bus Stop Name"
-            value={busStopName}
-            onChangeText={setBusStopName}
+            value={busStopId}
+            onChangeText={setBusStopId}
             outlineStyle={{
               borderColor: theme.colors.primary,
               borderRadius: 5,

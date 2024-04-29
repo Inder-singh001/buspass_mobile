@@ -67,7 +67,7 @@ const SignUpScreen: React.FC<Props> = ({navigation, route}) => {
     };
 
     // Define the signup endpoint URL
-    const signUpUrl = 'https://amr.sytes.net/signup';
+    const signUpUrl = 'https://amr.sytes.net/mobile/signup';
 
     try {
       // Send a POST request to the signup endpoint

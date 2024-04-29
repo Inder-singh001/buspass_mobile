@@ -6,28 +6,40 @@ import QRCode from 'react-native-qrcode-svg';
 import React, {useState} from 'react';
 import {fetchUserData} from '../../services/UserApi/UserData';
 import {getTokenFromStorage} from '../../networking/requestInterceptor/getLoginData';
+import { fetchUserPassData } from '../../services/UserApi/PassData';
 
 interface BusPassProps {
   name: string;
+  id: string;
+  from_bus_stop: string;
+  to_bus_stop: string;
 }
+
+
 
 const BusPassScreen = () => {
   const [studentData, setStudentData] = useState<BusPassProps | null>(null);
   const [studentToken, setStudentToken] = useState<string | null>(null); // State to store username
+  const [studentPassData, setStudentPassData] = useState<BusPassProps | null>(null); // State to store username
 
   React.useEffect(() => {
     const fetchStudent = async () => {
       try {
         const studentData = await fetchUserData();
         const studentToken = await getTokenFromStorage();
+        const PassData = await fetchUserPassData();
+        const studentPassData = PassData.data.form[0]
         setStudentData(studentData);
         setStudentToken(studentToken);
+        setStudentPassData(studentPassData);
+        console.log(studentPassData.id);
       } catch {
         console.log('error fetching data');
       }
     };
     fetchStudent();
   }, []);
+
 
   return (
     <ImageBackground
@@ -38,12 +50,18 @@ const BusPassScreen = () => {
           <Text style={styles.receiptText}>Receipt No.</Text>
           <TextInput
             mode="flat"
-            style={{width: '55%', backgroundColor: theme.colors.background}}
+            style={{width:'55%', backgroundColor: theme.colors.background}}
+            value={studentPassData?.id ? String(studentPassData.id) : ''}
             dense
+            textColor='#000'
             contentStyle={{
               paddingLeft: 6,
               paddingRight: 6,
-              height: 24,
+              marginTop:12,
+              height: 18,
+              fontSize: 16,
+              left: 25,
+              fontWeight: "700"
             }}
             disabled
           />
@@ -56,12 +74,12 @@ const BusPassScreen = () => {
           />
         </View>
         <View style={styles.places}>
-          <Text style={styles.distance}>Departure</Text>
+          <Text style={styles.distance}>{studentPassData?.from_bus_stop}</Text>
           <Image
             source={require('../../assets/images/arrow.png')}
             style={styles.arrow}
           />
-          <Text style={styles.distance}>Arrival</Text>
+          <Text style={styles.distance}>{studentPassData?.to_bus_stop}</Text>
         </View>
         <View style={styles.service}>
           <Text style={styles.serviceHead}>PRTC</Text>
@@ -74,16 +92,3 @@ const BusPassScreen = () => {
   );
 };
 export default BusPassScreen;
-
-// import { decode } from 'base-64';
-
-// // Your JWT payload (Base64 encoded)
-// const jwtPayloadBase64 = 'eyJpZCI6MzcsIm5hbWUiOiJBbXJpbmRlciBTaW5naCIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInR5cGUiOiJzdHVkZW50IiwiaWF0IjoxNzExODk5OTY2LCJleHAiOjE3MTE5MDM1NjZ9';
-
-// // Decode the payload
-// const decodedPayload = decode(jwtPayloadBase64);
-
-// // Parse the decoded payload as JSON
-// const payloadJSON = JSON.parse(decodedPayload);
-
-// console.log(payloadJSON);
